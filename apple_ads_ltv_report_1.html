@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Apple Search Ads — Max CPT Report</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f9f9f7;color:#1a1a18;font-size:14px;padding:24px;}
+.wrap{max-width:1200px;margin:0 auto;}
+table{border-collapse:collapse;width:100%;font-size:13px;}
+th{font-weight:500;font-size:11px;color:#888;text-align:left;padding:8px 10px;border-bottom:1px solid #e8e8e4;white-space:nowrap;letter-spacing:0.03em;}
+td{padding:8px 10px;border-bottom:1px solid #f0f0ec;color:#1a1a18;vertical-align:middle;font-size:13px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafaf8;}
+input[type=file]{display:none;}
+.upload-btn{display:inline-block;cursor:pointer;background:transparent;border:1px solid #ccc;border-radius:8px;padding:6px 12px;font-size:12px;color:#666;}
+.upload-btn:hover{background:#f0f0ec;}
+button{font-family:inherit;cursor:pointer;background:transparent;border:1px solid #ccc;border-radius:8px;padding:5px 12px;font-size:12px;color:#1a1a18;}
+button:hover{background:#f0f0ec;}
+.tab-btn{border:none;padding:6px 14px;font-size:13px;border-radius:8px;}
+.mono{font-family:'SF Mono',Monaco,'Cascadia Code',monospace;}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;}
+.card{background:#fff;border:1px solid #e8e8e4;border-radius:12px;padding:16px;}
+.stat-card{background:#f4f4f0;border-radius:8px;padding:12px 14px;}
+.success{color:#2d7a3a;}
+.info{color:#1a5fa8;}
+.warning{color:#a06010;}
+.danger{color:#a02020;}
+.bg-success{background:#e8f5ea;}
+.bg-info{background:#e6f1fb;}
+.bg-warning{background:#faeeda;}
+.bg-secondary{background:#f4f4f0;}
+.text-secondary{color:#888;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="app"></div>
+</div>
+
+<script>
+const RAW=[{"country":"India","installs":2257,"ltv":17.35,"hasTrial":true,"trialCVR":3.63,"directPaid":0.13,"trialPaid":2.87,"paidPerInstall":0.4},{"country":"United States","installs":1045,"ltv":20.88,"hasTrial":true,"trialCVR":12.06,"directPaid":2.11,"trialPaid":2.87,"paidPerInstall":4.98},{"country":"Mexico","installs":958,"ltv":15.97,"hasTrial":true,"trialCVR":7.41,"directPaid":0.1,"trialPaid":0.94,"paidPerInstall":1.04},{"country":"South Africa","installs":852,"ltv":21.86,"hasTrial":true,"trialCVR":14.79,"directPaid":0.47,"trialPaid":1.17,"paidPerInstall":1.64},{"country":"United Kingdom","installs":435,"ltv":12.22,"hasTrial":true,"trialCVR":15.86,"directPaid":0.23,"trialPaid":2.07,"paidPerInstall":2.3},{"country":"Philippines","installs":294,"ltv":15.45,"hasTrial":true,"trialCVR":17.01,"directPaid":0.34,"trialPaid":2.38,"paidPerInstall":2.72},{"country":"Nigeria","installs":205,"ltv":11.44,"hasTrial":true,"trialCVR":12.2,"directPaid":0.0,"trialPaid":1.46,"paidPerInstall":1.46},{"country":"Canada","installs":188,"ltv":11.6,"hasTrial":true,"trialCVR":17.02,"directPaid":0.0,"trialPaid":4.79,"paidPerInstall":4.79},{"country":"Indonesia","installs":185,"ltv":8.98,"hasTrial":true,"trialCVR":15.14,"directPaid":0.0,"trialPaid":3.24,"paidPerInstall":3.24},{"country":"Australia","installs":168,"ltv":24.54,"hasTrial":true,"trialCVR":16.07,"directPaid":4.76,"trialPaid":2.98,"paidPerInstall":7.74},{"country":"Malaysia","installs":166,"ltv":29.49,"hasTrial":true,"trialCVR":12.05,"directPaid":1.2,"trialPaid":0.6,"paidPerInstall":1.8},{"country":"Ghana","installs":154,"ltv":14.15,"hasTrial":true,"trialCVR":10.39,"directPaid":0.0,"trialPaid":1.3,"paidPerInstall":1.3},{"country":"United Arab Emirates","installs":146,"ltv":24.24,"hasTrial":true,"trialCVR":9.59,"directPaid":0.68,"trialPaid":0.68,"paidPerInstall":1.36},{"country":"Thailand","installs":146,"ltv":8.83,"hasTrial":true,"trialCVR":20.55,"directPaid":0.0,"trialPaid":3.42,"paidPerInstall":3.42},{"country":"Brazil","installs":140,"ltv":26.84,"hasTrial":true,"trialCVR":17.14,"directPaid":1.43,"trialPaid":2.86,"paidPerInstall":4.29},{"country":"Germany","installs":114,"ltv":27.61,"hasTrial":true,"trialCVR":9.65,"directPaid":1.75,"trialPaid":0.88,"paidPerInstall":2.63},{"country":"Turkey","installs":113,"ltv":12.73,"hasTrial":true,"trialCVR":13.27,"directPaid":0.88,"trialPaid":4.42,"paidPerInstall":5.3},{"country":"Argentina","installs":99,"ltv":10.7,"hasTrial":true,"trialCVR":10.1,"directPaid":0.0,"trialPaid":5.05,"paidPerInstall":5.05},{"country":"Poland","installs":88,"ltv":24.0,"hasTrial":true,"trialCVR":14.77,"directPaid":1.14,"trialPaid":1.14,"paidPerInstall":2.28},{"country":"Singapore","installs":78,"ltv":15.79,"hasTrial":true,"trialCVR":8.97,"directPaid":0.0,"trialPaid":2.56,"paidPerInstall":2.56},{"country":"Italy","installs":72,"ltv":8.02,"hasTrial":true,"trialCVR":4.17,"directPaid":0.0,"trialPaid":1.39,"paidPerInstall":1.39},{"country":"Egypt","installs":72,"ltv":14.34,"hasTrial":true,"trialCVR":5.56,"directPaid":0.0,"trialPaid":1.39,"paidPerInstall":1.39},{"country":"Saudi Arabia","installs":68,"ltv":15.76,"hasTrial":true,"trialCVR":10.29,"directPaid":0.0,"trialPaid":2.94,"paidPerInstall":2.94},{"country":"Kenya","installs":63,"ltv":14.58,"hasTrial":true,"trialCVR":9.52,"directPaid":0.0,"trialPaid":3.17,"paidPerInstall":3.17},{"country":"Uganda","installs":63,"ltv":20.51,"hasTrial":true,"trialCVR":6.35,"directPaid":0.0,"trialPaid":1.59,"paidPerInstall":1.59},{"country":"Colombia","installs":60,"ltv":15.23,"hasTrial":true,"trialCVR":8.33,"directPaid":0.0,"trialPaid":1.67,"paidPerInstall":1.67},{"country":"Ireland","installs":58,"ltv":12.03,"hasTrial":true,"trialCVR":15.52,"directPaid":0.0,"trialPaid":3.45,"paidPerInstall":3.45},{"country":"Israel","installs":56,"ltv":16.45,"hasTrial":true,"trialCVR":12.5,"directPaid":0.0,"trialPaid":3.57,"paidPerInstall":3.57},{"country":"Greece","installs":55,"ltv":35.54,"hasTrial":true,"trialCVR":9.09,"directPaid":1.82,"trialPaid":0.0,"paidPerInstall":1.82},{"country":"Ukraine","installs":53,"ltv":7.08,"hasTrial":true,"trialCVR":13.21,"directPaid":0.0,"trialPaid":1.89,"paidPerInstall":1.89},{"country":"Romania","installs":51,"ltv":32.53,"hasTrial":true,"trialCVR":9.8,"directPaid":1.96,"trialPaid":0.0,"paidPerInstall":1.96}];
+
+const SCENS=[
+  {cr:25,label:'Conservative',desc:'25% CR',cls:'warning'},
+  {cr:50,label:'Moderate',desc:'50% CR',cls:'info'},
+  {cr:75,label:'Good',desc:'75% CR',cls:'success'},
+  {cr:100,label:'Best case',desc:'100% CR',cls:''},
+];
+
+let S={data:RAW.map(r=>({...r})),tab:'summary',showImport:false,importError:'',minInstalls:50};
+let pendingLTV=null,pendingFunnel=null;
+
+function cpt(r,cr){return r.ltv*(cr/100)*(r.paidPerInstall/100);}
+function f$(v){return '$'+Number(v).toFixed(3);}
+function fP(v){return v>0?v.toFixed(2)+'%':'—';}
+
+function miniBar(val,max,color){
+  const pct=max>0?(val/max*100).toFixed(1):0;
+  return`<div style="display:flex;align-items:center;gap:6px;">
+    <div style="width:48px;height:4px;background:#f0f0ec;border-radius:2px;overflow:hidden;flex-shrink:0;">
+      <div style="height:100%;width:${pct}%;background:${color};border-radius:2px;"></div>
+    </div>
+    <span class="mono" style="font-size:12px;">${val.toFixed(2)}%</span>
+  </div>`;
+}
+
+function parseLTV(csv){
+  const lines=csv.trim().split('\n');
+  const hdr=lines[0].split(',').map(s=>s.trim().replace(/"/g,'').toLowerCase());
+  const ci=hdr.indexOf('cohort'),si=hdr.indexOf('cohort size');
+  const ps=['p4','p3','p2','p1'].map(p=>hdr.indexOf(p));
+  if(ci<0) throw new Error('Cannot find "Cohort" column in LTV file');
+  const map={};
+  for(let i=1;i<lines.length;i++){
+    const cols=lines[i].split(',').map(s=>s.trim().replace(/"/g,''));
+    const cohort=cols[ci]||'';
+    if(!cohort.includes('Net_revenue')) continue;
+    const country=cohort.replace(/\s*\(Net_revenue\)/,'').trim();
+    if(country.toLowerCase().includes('weighted')) continue;
+    let val=null;
+    for(const pi of ps){if(pi>=0&&cols[pi]&&cols[pi]!==''){val=parseFloat(cols[pi]);if(!isNaN(val))break;}}
+    if(val) map[country]={ltv:Math.round(val*100)/100,cohortSize:si>=0?parseInt(cols[si])||0:0};
+  }
+  return map;
+}
+
+function parseFunnels(csv){
+  const lines=csv.trim().split('\n');
+  const hdr=lines[0].split(',').map(s=>s.trim().replace(/"/g,'').toLowerCase());
+  const ci=hdr.indexOf('country'),ii=hdr.indexOf('install_absolute'),tri=hdr.indexOf('trial_relative'),dpi=hdr.indexOf('install_paid_relative'),tpi=hdr.indexOf('trial_paid_relative');
+  if(ci<0||tri<0||dpi<0||tpi<0) throw new Error('Cannot find required columns in Funnels file');
+  const map={};
+  for(let i=1;i<lines.length;i++){
+    const cols=lines[i].split(',').map(s=>s.trim().replace(/"/g,''));
+    const country=cols[ci];
+    if(!country||country==='Total') continue;
+    const installs=ii>=0?parseInt(cols[ii])||0:0;
+    const trialCVR=parseFloat(cols[tri])||0,directPaid=parseFloat(cols[dpi])||0,trialPaid=parseFloat(cols[tpi])||0;
+    map[country]={installs,trialCVR,directPaid,trialPaid,paidPerInstall:Math.round((directPaid+trialPaid)*100)/100,hasTrial:trialCVR>0};
+  }
+  return map;
+}
+
+function mergeData(ltvMap,funnelMap,minInstalls){
+  const result=[];
+  for(const [country,ltvData] of Object.entries(ltvMap)){
+    const f=funnelMap[country];
+    if(f&&f.installs>=minInstalls) result.push({country,ltv:ltvData.ltv,...f});
+  }
+  return result;
+}
+
+function readFile(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=()=>rej(new Error('Could not read file'));r.readAsText(file);});}
+
+function renderApp(){
+  const sorted=[...S.data].sort((a,b)=>cpt(b,75)-cpt(a,75));
+  const avgLTV=S.data.length?S.data.reduce((s,r)=>s+r.ltv,0)/S.data.length:0;
+  const bestCPT=S.data.length?Math.max(...S.data.map(r=>cpt(r,100))):0;
+  const top3=sorted.slice(0,3).map(r=>r.country).join(', ');
+  const maxTrialCVR=Math.max(...S.data.map(r=>r.trialCVR));
+  const maxPaidPI=Math.max(...S.data.map(r=>r.paidPerInstall));
+
+  const stats=[
+    {l:'Countries ('+S.minInstalls+'+ installs)',v:S.data.length},
+    {l:'Avg net LTV',v:'$'+avgLTV.toFixed(2)},
+    {l:'Best max CPT (100% CR)',v:f$(bestCPT)},
+    {l:'Top opportunities',v:top3,small:true}
+  ].map(s=>`<div class="stat-card">
+    <div style="font-size:11px;color:#888;margin-bottom:4px;letter-spacing:0.03em;">${s.l}</div>
+    <div style="font-size:${s.small?'12px':'20px'};font-weight:500;${s.small?'line-height:1.4;margin-top:4px;':''}">${s.v}</div>
+  </div>`).join('');
+
+  const tabs=['summary','rankings','scenarios'].map((k,i)=>{
+    const labels=['Summary','Rankings','Scenarios'];
+    const a=S.tab===k;
+    return`<button class="tab-btn" data-tab="${k}" style="font-weight:${a?500:400};color:${a?'#1a1a18':'#888'};background:${a?'#fff':'transparent'};border:1px solid ${a?'#e8e8e4':'transparent'};">${labels[i]}</button>`;
+  }).join('');
+
+  let importHTML='';
+  if(S.showImport){
+    importHTML=`<div class="card" style="margin-bottom:16px;">
+      <p style="font-size:13px;font-weight:500;margin-bottom:12px;">Upload new data</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div style="border:1px solid #e8e8e4;border-radius:8px;padding:14px;">
+          <p style="font-size:12px;font-weight:500;margin-bottom:4px;">1. Adapty LTV CSV</p>
+          <p style="font-size:11px;color:#888;margin-bottom:10px;">LTV by renewals, by country. Uses Net_revenue, latest available period (p4→p3→p2→p1).</p>
+          <label class="upload-btn" for="ltv-upload">Choose LTV file</label>
+          <input type="file" id="ltv-upload" accept=".csv"/>
+          <span id="ltv-name" style="font-size:11px;color:#888;display:block;margin-top:6px;"></span>
+        </div>
+        <div style="border:1px solid #e8e8e4;border-radius:8px;padding:14px;">
+          <p style="font-size:12px;font-weight:500;margin-bottom:4px;">2. Adapty Funnels CSV</p>
+          <p style="font-size:11px;color:#888;margin-bottom:10px;">Funnels by country (both). Needs: trial_relative, install_paid_relative, trial_paid_relative.</p>
+          <label class="upload-btn" for="funnel-upload">Choose Funnels file</label>
+          <input type="file" id="funnel-upload" accept=".csv"/>
+          <span id="funnel-name" style="font-size:11px;color:#888;display:block;margin-top:6px;"></span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <label style="font-size:12px;color:#888;">Min installs threshold</label>
+        <input type="number" id="min-installs" value="${S.minInstalls}" min="1" style="width:70px;border:1px solid #ccc;border-radius:6px;padding:4px 8px;font-size:12px;font-family:inherit;"/>
+      </div>
+      ${S.importError?`<p style="font-size:12px;color:#a02020;margin-bottom:8px;">${S.importError}</p>`:''}
+      <button id="do-import" style="font-size:13px;padding:7px 16px;">Import and update report</button>
+    </div>`;
+  }
+
+  let content='';
+
+  if(S.tab==='summary'){
+    const colColors={'warning':'#a06010','info':'#1a5fa8','success':'#2d7a3a','':'#1a1a18'};
+    const rows=sorted.map((r,i)=>`<tr>
+      <td style="color:#888;font-size:12px;" class="mono">${i+1}</td>
+      <td style="font-weight:500;">${r.country}</td>
+      <td class="mono" style="text-align:right;color:#888;font-size:12px;">${r.installs.toLocaleString()}</td>
+      <td><span class="badge" style="background:${r.hasTrial?'#e6f1fb':'#f4f4f0'};color:${r.hasTrial?'#1a5fa8':'#888'};">${r.hasTrial?'trial':'direct'}</span></td>
+      <td class="mono" style="text-align:right;">$${r.ltv.toFixed(2)}</td>
+      <td>${r.hasTrial?miniBar(r.trialCVR,maxTrialCVR,'#1a5fa8'):'<span style="color:#ccc;font-size:12px;">—</span>'}</td>
+      <td>${miniBar(r.paidPerInstall,maxPaidPI,'#2d7a3a')}</td>
+      ${SCENS.map(s=>`<td class="mono" style="text-align:right;color:${colColors[s.cls]||'#1a1a18'};">${f$(cpt(r,s.cr))}</td>`).join('')}
+    </tr>`).join('');
+    content=`<div style="overflow-x:auto;background:#fff;border:1px solid #e8e8e4;border-radius:12px;">
+      <table>
+        <thead><tr>
+          <th>#</th><th>Country</th>
+          <th style="text-align:right;">Installs</th>
+          <th>Funnel</th>
+          <th style="text-align:right;">Net LTV</th>
+          <th style="color:#1a5fa8;">Trial rate<br><span style="font-weight:400;font-size:10px;">install → trial</span></th>
+          <th style="color:#2d7a3a;">Paid rate<br><span style="font-weight:400;font-size:10px;">install → paid</span></th>
+          ${SCENS.map(s=>`<th style="text-align:right;color:${colColors[s.cls]||'#1a1a18'};">Max CPT<br><span style="font-weight:400;font-size:10px;">${s.desc}</span></th>`).join('')}
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div style="padding:10px 12px;font-size:11px;color:#888;border-top:1px solid #f0f0ec;">
+        Max CPT = Net LTV × CR (tap→install) × paid/install rate &nbsp;·&nbsp; Only storefronts with ${S.minInstalls}+ installs shown &nbsp;·&nbsp; Bars scaled relative to highest value in column
+      </div>
+    </div>`;
+  }
+
+  if(S.tab==='rankings'){
+    const n=5;
+    const top=sorted.slice(0,n);
+    const bottom=[...sorted].reverse().slice(0,n);
+    const maxLTV=Math.max(...S.data.map(r=>r.ltv));
+    const maxPI=Math.max(...S.data.map(r=>r.paidPerInstall));
+    const maxTC=Math.max(...S.data.map(r=>r.trialCVR));
+    const card=(arr,col)=>arr.map((r,i)=>`
+      <div style="padding:10px 0;border-bottom:${i<arr.length-1?'1px solid #f0f0ec':'none'};">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:13px;font-weight:500;">${r.country}</span>
+          <div style="text-align:right;">
+            <div style="font-size:14px;font-weight:500;color:${col};" class="mono">${f$(cpt(r,75))}</div>
+            <div style="font-size:10px;color:#888;">max CPT · 75% CR</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div>
+            <div style="font-size:10px;color:#888;margin-bottom:3px;">Net LTV</div>
+            <div style="height:3px;background:#f0f0ec;border-radius:2px;margin-bottom:3px;overflow:hidden;"><div style="height:100%;width:${(r.ltv/maxLTV*100).toFixed(1)}%;background:#555;border-radius:2px;"></div></div>
+            <div style="font-size:11px;" class="mono">$${r.ltv.toFixed(2)}</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#1a5fa8;margin-bottom:3px;">Trial rate</div>
+            <div style="height:3px;background:#f0f0ec;border-radius:2px;margin-bottom:3px;overflow:hidden;"><div style="height:100%;width:${maxTC>0?(r.trialCVR/maxTC*100).toFixed(1):0}%;background:#1a5fa8;border-radius:2px;"></div></div>
+            <div style="font-size:11px;" class="mono">${fP(r.trialCVR)}</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#2d7a3a;margin-bottom:3px;">Paid rate</div>
+            <div style="height:3px;background:#f0f0ec;border-radius:2px;margin-bottom:3px;overflow:hidden;"><div style="height:100%;width:${(r.paidPerInstall/maxPI*100).toFixed(1)}%;background:#2d7a3a;border-radius:2px;"></div></div>
+            <div style="font-size:11px;" class="mono">${fP(r.paidPerInstall)}</div>
+          </div>
+        </div>
+      </div>`).join('');
+    content=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="card">
+        <div style="font-size:11px;font-weight:500;color:#2d7a3a;letter-spacing:0.05em;margin-bottom:10px;">TOP OPPORTUNITIES</div>
+        ${card(top,'#2d7a3a')}
+      </div>
+      <div class="card">
+        <div style="font-size:11px;font-weight:500;color:#a02020;letter-spacing:0.05em;margin-bottom:10px;">LOWEST POTENTIAL</div>
+        ${card(bottom,'#a02020')}
+      </div>
+    </div>`;
+  }
+
+  if(S.tab==='scenarios'){
+    const colMap={warning:'#a06010',info:'#1a5fa8',success:'#2d7a3a','':'#1a1a18'};
+    const bgMap={warning:'#faeeda',info:'#e6f1fb',success:'#e8f5ea','':'#f4f4f0'};
+    const cols=SCENS.map(s=>{
+      const arr=[...S.data].sort((a,b)=>cpt(b,s.cr)-cpt(a,s.cr));
+      const col=colMap[s.cls];const bg=bgMap[s.cls];
+      return`<div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span class="badge" style="background:${bg};color:${col};font-size:11px;font-weight:500;">${s.label}</span>
+          <span style="font-size:11px;color:#888;" class="mono">${s.desc}</span>
+        </div>
+        ${arr.map((r,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:${i<arr.length-1?'1px solid #f4f4f0':'none'};">
+          <div style="flex:1;overflow:hidden;">
+            <div style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.country}</div>
+            <div style="font-size:10px;color:#888;" class="mono">trial ${fP(r.trialCVR)} · paid ${fP(r.paidPerInstall)}</div>
+          </div>
+          <span style="font-size:12px;font-weight:500;color:${col};margin-left:8px;" class="mono">${f$(cpt(r,s.cr))}</span>
+        </div>`).join('')}
+      </div>`;
+    }).join('');
+    content=`<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px;">${cols}</div>
+    <div style="background:#f4f4f0;border-radius:8px;padding:12px 14px;font-size:12px;color:#888;">
+      <span style="color:#1a1a18;font-weight:500;">Formula:</span> Max CPT = Net LTV × CR (tap→install) × paid/install rate &nbsp;·&nbsp; 100% CR = 1 tap, 1 install. These are break-even ceilings.
+    </div>`;
+  }
+
+  document.getElementById('app').innerHTML=`
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
+        <div>
+          <h1 style="font-size:18px;font-weight:500;margin-bottom:3px;">Apple Search Ads — Max CPT by storefront</h1>
+          <p style="font-size:12px;color:#888;">Document Scanner iOS · Feb 24 – Mar 23 2026 · Net revenue LTV · min ${S.minInstalls} installs</p>
+        </div>
+        <button id="tog-import" style="margin-top:4px;">${S.showImport?'Close':'Upload new data'}</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:20px;">${stats}</div>
+      ${importHTML}
+      <div style="display:flex;gap:4px;margin-bottom:16px;background:#f4f4f0;padding:4px;border-radius:8px;width:fit-content;">${tabs}</div>
+      ${content}
+    </div>`;
+
+  document.getElementById('tog-import').onclick=()=>{S.showImport=!S.showImport;S.importError='';renderApp();};
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;renderApp();});
+
+  if(S.showImport){
+    document.getElementById('ltv-upload').onchange=async(e)=>{const f=e.target.files[0];if(f){pendingLTV=await readFile(f);document.getElementById('ltv-name').textContent=f.name;}};
+    document.getElementById('funnel-upload').onchange=async(e)=>{const f=e.target.files[0];if(f){pendingFunnel=await readFile(f);document.getElementById('funnel-name').textContent=f.name;}};
+    document.getElementById('do-import').onclick=()=>{
+      const minI=parseInt(document.getElementById('min-installs').value)||50;
+      if(!pendingLTV&&!pendingFunnel){S.importError='Please choose at least one file.';renderApp();return;}
+      try{
+        let ltvMap=null,funnelMap=null;
+        if(pendingLTV) ltvMap=parseLTV(pendingLTV);
+        if(pendingFunnel) funnelMap=parseFunnels(pendingFunnel);
+        if(ltvMap&&funnelMap){
+          S.data=mergeData(ltvMap,funnelMap,minI);
+          if(S.data.length===0){S.importError='No matching countries found with that threshold.';renderApp();return;}
+        } else if(ltvMap){
+          S.data=S.data.filter(r=>r.installs>=minI).map(r=>{const n=ltvMap[r.country];return n?{...r,ltv:n.ltv}:r;});
+        } else if(funnelMap){
+          const newData=[];
+          for(const [country,f] of Object.entries(funnelMap)){
+            if(f.installs<minI) continue;
+            const existing=S.data.find(r=>r.country===country);
+            if(existing) newData.push({...existing,...f});
+          }
+          S.data=newData;
+        }
+        S.minInstalls=minI;S.showImport=false;S.importError='';pendingLTV=null;pendingFunnel=null;renderApp();
+      }catch(err){S.importError=err.message;renderApp();}
+    };
+  }
+}
+renderApp();
+</script>
+</body>
+</html>
